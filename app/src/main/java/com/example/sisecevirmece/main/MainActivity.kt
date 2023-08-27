@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //Soru database kuruldu
         val database= Room.databaseBuilder(this,SoruDatabase::class.java,"SoruDatabase").build()
-        DatabaseInit(database).addSorular()
+        DatabaseInit(database)
         setContentView(R.layout.activity_main)
         var oynaDugmesi : Button=findViewById<Button>(R.id.oynaDugmesi)
         oynaDugmesi.setOnClickListener(){
