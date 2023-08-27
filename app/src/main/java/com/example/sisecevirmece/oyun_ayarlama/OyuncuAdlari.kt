@@ -134,7 +134,7 @@ class OyuncuAdlari : AppCompatActivity(), AyarlamaSayfasi, KutuluSayfa {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val string=s.toString()
+                val string=s.toString()
                 //FIXME düzgün çalışmıyor
                 if(kutuDeposu.isimCozumle.getAdListesi().contains(string) and !string.isEmpty())
                     kutu.error="Aynı isimde birden fazla oyuncu olamaz"
@@ -175,22 +175,11 @@ class OyuncuAdlari : AppCompatActivity(), AyarlamaSayfasi, KutuluSayfa {
     }
 
     override fun oyunaIlerle() {
-        sorulariAyarla()
+
         val intent= Intent(this, Oyun::class.java)
         intent.putExtra("oyuncu_sayisi",oyuncuSayisiAl())
         startActivity(intent)
     }
 
-    private fun sorulariAyarla() {
-        //ilk defa mı kontrol et
-        val ilk:SharedPreferences=getSharedPreferences("ilk_mi", Context.MODE_PRIVATE)
-        val ilk_mi=ilk.getBoolean("ilk_mi", false)
-        if(ilk_mi){
-            val d_tr=getSharedPreferences("d_tr",Context.MODE_PRIVATE)
-            val c_tr=getSharedPreferences("c_tr",Context.MODE_PRIVATE)
-            for(i in 0..100){
 
-            }
-        }
-    }
 }

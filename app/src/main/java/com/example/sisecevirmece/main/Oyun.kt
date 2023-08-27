@@ -23,10 +23,6 @@ class Oyun : AppCompatActivity(){
     private var animation: Animation? = null
     private var currentRotation: Float = 0f // Store the current rotation value
     private var bottleStopRotation: Float = 0f // Store the final rotation value after the animation stops
-    private val d_tr:SharedPreferences=getSharedPreferences("d_tr",Context.MODE_PRIVATE)
-    private val d_eng:SharedPreferences=getSharedPreferences("d_eng",Context.MODE_PRIVATE)
-    private val c_tr:SharedPreferences=getSharedPreferences("c_tr",Context.MODE_PRIVATE)
-    private val c_eng:SharedPreferences=getSharedPreferences("c_eng",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_oyun)
@@ -98,29 +94,10 @@ class Oyun : AppCompatActivity(){
 
     private fun soruSor(secilen: String, esi: String,soru_tipi:Boolean) {
         setContentView(R.layout.soru_diyalogu)
-            if(soru_tipi){//Doğruluk
-                //todo Doğruluk sorusu çek shared preferences
-                val kimlik=Random(0).nextInt(49)
-                val soru=d_tr.getString(kimlik.toString(),null)
-                if(soru==null){
-                    Toast.makeText(this,"soruya ulaşılamadı",Toast.LENGTH_LONG).show()
-                }
-                findViewById<TextView>(R.id.soru_text).text=soru
-            }else{//Cesaret
-                val kimlik=Random(1).nextInt(49)
-                val soru=c_tr.getString(kimlik.toString(),null)
-                if(soru==null){
-                    Toast.makeText(this,"soruya ulaşılamadı",Toast.LENGTH_LONG).show()
-                }
-                findViewById<TextView>(R.id.soru_text).text=soru
-            }
-
-
 
     }
 
     //TODO isimleri ayarlarken isim girilmek zorunda ekle
-    //TODO isimlerde türkçe karakter girilmiyor
     private fun oyuncuAciDegeriBelirle(oyuncuSayisi:Int,oyuncuIndeks:Int): Float {
         return (360/oyuncuSayisi)*(oyuncuIndeks+1).toFloat()
     }//FIXME dört kişi olunca açı değeri sıkıntılı oluyor
