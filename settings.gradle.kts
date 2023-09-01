@@ -10,6 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven{
+            url =uri("https://jitpack.io")
+            url=uri("https://dl.bintray.com/kotlin/kotlin-eap")
+        }
     }
 }
 
