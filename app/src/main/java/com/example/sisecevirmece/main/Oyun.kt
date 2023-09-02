@@ -95,6 +95,7 @@ class Oyun : AppCompatActivity(){
     private fun soruSor(secilen: String, esi: String,soru_tipi:Boolean) {
         setContentView(R.layout.soru_diyalogu)
 
+        //TODO buradan soru çekecez
     }
 
     //TODO isimleri ayarlarken isim girilmek zorunda ekle

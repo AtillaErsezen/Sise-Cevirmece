@@ -38,21 +38,21 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
     implementation(libs.androidx.room.runtime)
-        annotationProcessor(libs.androidx.room.compiler)
+    annotationProcessor(libs.androidx.room.compiler)
 
-        // To use Kotlin annotation processing tool (kapt)
-        kapt(libs.androidx.room.compiler)
+    // To use Kotlin annotation processing tool (kapt)
+    kapt(libs.androidx.room.compiler)
 
-        // optional - Kotlin Extensions and Coroutines support for Room
-        implementation(libs.room.ktx)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
 
-        // optional - Test helpers
-        testImplementation(libs.room.testing)
+    // optional - Test helpers
+    testImplementation(libs.room.testing)
 
-        // optional - Paging 3 Integration
-        implementation(libs.room.paging)
+    // optional - Paging 3 Integration
+    implementation(libs.room.paging)
 
     //work
     //kotlin+coroutines
