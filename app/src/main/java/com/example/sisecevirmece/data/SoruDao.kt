@@ -1,14 +1,17 @@
 package com.example.sisecevirmece.data
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import androidx.room.Upsert
 
 @Dao
 interface SoruDao {
-    @Upsert
-    fun addSorular(sorular:List<String>)
-    fun getSorular():List<String>
-    fun getSoruById(id:Int):String
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addSorular(sorular:List<Soru>)
+    @Query("SELECT * FROM SoruDatabase WHERE id=:id")
+    fun getSoruById(id:Int):Soru
 
 
 }
