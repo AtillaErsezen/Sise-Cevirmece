@@ -14,8 +14,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.sisecevirmece.R
 import com.example.sisecevirmece.oyun_ayarlama.Adlar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class Oyun : AppCompatActivity(){
@@ -23,12 +27,14 @@ class Oyun : AppCompatActivity(){
     private var animation: Animation? = null
     private var currentRotation: Float = 0f // Store the current rotation value
     private var bottleStopRotation: Float = 0f // Store the final rotation value after the animation stops
+    private var viewModel:OyunViewModel?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_oyun)
         animation = AnimationUtils.loadAnimation(this, R.anim.sise_cevirme_animasyon)
         //oyuncu sayısı al
         val oyuncuSayisi = oyuncuSayisiAl()
+        viewModel=ViewModelProvider(this).get(OyunViewModel::class.java)
         seyleriEkle(oyuncuSayisi)
     }
     //TODo minimum oyuncu sayısı iki olsun
@@ -81,21 +87,27 @@ class Oyun : AppCompatActivity(){
         val mesaj = secilen + "! Seç bakalım! Doğruluk mu, cesaret mi?"
         findViewById<TextView?>(R.id.dc_text).text=mesaj//Başlığa oyuncu adını ekledik
         val dogruluk=findViewById<Button>(R.id.dogruluk_dugme)
-        dogruluk.setOnClickListener(){
-            //tODO doğruluk sorusu sor
-            soruSor(secilen,esi,true)
+        dogruluk.setOnClickListener{
+            CoroutineScope(Dispatchers.IO).launch{
+                //tODO doğruluk sorusu sor
+                setContentView(R.layout.soru_diyalogu)
+                val soru=viewModel?.soruSor(secilen,esi,SoruTipi.DOGRULUK)//FIXME soru boş dönüyor
+                findViewById<TextView>(R.id.soru_text).text=soru//FIXME nullpointer
+            }
+
+
         }
         val cesaret=findViewById<Button>(R.id.cesaret_dugme)
-        cesaret.setOnClickListener(){
+        cesaret.setOnClickListener{
             //tODO cesaret sorusu sor
-            soruSor(secilen,esi,false)
+            CoroutineScope(Dispatchers.IO).launch{
+                setContentView(R.layout.soru_diyalogu)
+                val soru=viewModel?.soruSor(secilen,esi,SoruTipi.DOGRULUK)
+                findViewById<TextView>(R.id.soru_text).text=soru
+            }
+
+
         }
-    }
-
-    private fun soruSor(secilen: String, esi: String,soru_tipi:Boolean) {
-        setContentView(R.layout.soru_diyalogu)
-
-        //TODO buradan soru çekecez
     }
 
     //TODO isimleri ayarlarken isim girilmek zorunda ekle

@@ -9,6 +9,8 @@ import com.example.sisecevirmece.data.DatabaseInit
 import com.example.sisecevirmece.data.Soru
 import com.example.sisecevirmece.data.SoruDatabase
 import com.example.sisecevirmece.main.MainActivity
+import com.example.sisecevirmece.main.OyunViewModel
+import com.example.sisecevirmece.main.SoruTipi
 import org.junit.After
 
 import org.junit.Test
