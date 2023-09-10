@@ -2,6 +2,7 @@ package com.example.sisecevirmece.main
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.AsyncTask
@@ -32,9 +33,13 @@ class Oyun : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_oyun)
         animation = AnimationUtils.loadAnimation(this, R.anim.sise_cevirme_animasyon)
-        //oyuncu sayısı al
-        val oyuncuSayisi = oyuncuSayisiAl()
         viewModel=ViewModelProvider(this).get(OyunViewModel::class.java)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val oyuncuSayisi = oyuncuSayisiAl()
         seyleriEkle(oyuncuSayisi)
     }
     //TODo minimum oyuncu sayısı iki olsun
@@ -90,20 +95,37 @@ class Oyun : AppCompatActivity(){
         dogruluk.setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch{
                 //tODO doğruluk sorusu sor
-                setContentView(R.layout.soru_diyalogu)
-                val soru=viewModel?.soruSor(secilen,esi,SoruTipi.DOGRULUK)//FIXME soru boş dönüyor
-                findViewById<TextView>(R.id.soru_text).text=soru//FIXME nullpointer
-            }
+                val soru=viewModel?.soruSor(SoruTipi.DOGRULUK)
+                runOnUiThread{
+                    setContentView(R.layout.soru_diyalogu)
+                    findViewById<TextView>(R.id.soru_text).text=soru
+                    val button=findViewById<Button>(R.id.soru_tamam)
+                    button.setOnClickListener{
+                        onRestart()
+                        setContentView(R.layout.activity_oyun)
 
+                        
+                    }
+                }
+            }
 
         }
         val cesaret=findViewById<Button>(R.id.cesaret_dugme)
         cesaret.setOnClickListener{
             //tODO cesaret sorusu sor
             CoroutineScope(Dispatchers.IO).launch{
-                setContentView(R.layout.soru_diyalogu)
-                val soru=viewModel?.soruSor(secilen,esi,SoruTipi.DOGRULUK)
-                findViewById<TextView>(R.id.soru_text).text=soru
+                val soru=viewModel?.soruSor(SoruTipi.CESARET)
+                runOnUiThread{
+                    setContentView(R.layout.soru_diyalogu)
+                    findViewById<TextView>(R.id.soru_text).text=soru
+                    val button=findViewById<Button>(R.id.soru_tamam)
+                    button.setOnClickListener{
+                        onRestart()
+                        setContentView(R.layout.activity_oyun)
+
+                        //FIXME oyuna geri dönerken boş oluyor
+                    }
+                }
             }
 
 

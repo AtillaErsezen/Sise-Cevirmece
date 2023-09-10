@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun oyunaGec() {
-        val intent:Intent=Intent(this, OyuncuSayisi::class.java)
+        val intent=Intent(this, OyuncuSayisi::class.java)
         startActivity(intent)
     }
 

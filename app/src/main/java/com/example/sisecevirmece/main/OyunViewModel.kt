@@ -2,6 +2,7 @@ package com.example.sisecevirmece.main
 
 import android.animation.Animator
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
@@ -25,28 +26,20 @@ class OyunViewModel: ViewModel() { //ViewModel extend ettik ki activity lifecycl
             context = pcontext
         }
     }
-
+    //TODO hep aynı soru çekiyor
     suspend fun soruSor(
         soruTipi: SoruTipi
-    ): String? {//asenkron işler yaptığımız için suspend
+    ): String {//asenkron işler yaptığımız için suspend
         return if (soruTipi == SoruTipi.DOGRULUK) {
-            var soru: String? = ""
-            CoroutineScope(Dispatchers.IO).launch {
-                val randomInt = Random(1).nextInt(SoruSayilari.DOGRULUK_SORU_SAYISI)
-                val database = DatabaseManager.getDatabase(context)
-                soru =
-                    database.dao.getSoruById(randomInt).soru//FIXME sıfır olmasa da boş string döndürüyor
-            }
-            soru
-        } else {//TODO tüm sorular tek database'de olsun, soru yanına true false değer sakla
-            var soru: String? = ""
-            CoroutineScope(Dispatchers.IO).launch {
-                val randomInt = Random(1).nextInt(SoruSayilari.DOGRULUK_SORU_SAYISI)
-                val database = DatabaseManager.getDatabase(context)
-                soru = database.dao.getSoruById(randomInt).soru
-            }
-            soru
+            val randomInt = Random.nextInt(SoruSayilari.DOGRULUK_SORU_SAYISI)
+            val database = DatabaseManager.getDatabase(context)
+            database.dao.getSoruById(randomInt).soru
+        } else {
+            val randomInt = Random.nextInt(SoruSayilari.DOGRULUK_SORU_SAYISI)
+            val database = DatabaseManager.getDatabase(context)
+            database.dao.getSoruById(randomInt).soru
         }
+
     }
 
 }
