@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
@@ -29,12 +30,13 @@ class Oyun : AppCompatActivity(){
     private var currentRotation: Float = 0f // Store the current rotation value
     private var bottleStopRotation: Float = 0f // Store the final rotation value after the animation stops
     private var viewModel:OyunViewModel?=null
+    private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_oyun)
         animation = AnimationUtils.loadAnimation(this, R.anim.sise_cevirme_animasyon)
         viewModel=ViewModelProvider(this).get(OyunViewModel::class.java)
-
+        mediaPlayer = MediaPlayer.create(this, R.raw.sise_donme_sesi)
     }
 
     override fun onStart() {
@@ -53,9 +55,12 @@ class Oyun : AppCompatActivity(){
 
             // Start the spinning animation
             animation!!.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {
+                    mediaPlayer?.start()
+                }
 
                 override fun onAnimationEnd(animation: Animation?) {
+                    mediaPlayer?.stop()
                     sise.rotation=oyuncuAci//Oyuncuyu burada seçtik
                     bottleStopRotation = sise.rotation % 360 // Store the final rotation value
                    val animation= modifyAndStartAnimation(sise,oyuncuAci)//Burada yavaşlama animasyon başlat
@@ -154,7 +159,12 @@ class Oyun : AppCompatActivity(){
     private fun oyuncuSayisiAl(): Int {
         return intent.getIntExtra("oyuncu_sayisi", 4)
     }
+    override fun onPause(){
+        super.onPause()
+        mediaPlayer?.pause()
+    }
     override fun onDestroy(){
         super.onDestroy()
+        mediaPlayer?.release()
     }
 }
