@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -87,6 +88,7 @@ class Oyun : AppCompatActivity(){
             sise.startAnimation(animation)
         }
     }
+    //TODO aynı isim yasakla
     fun dc_diyalog_olustur(secilen:String,esi:String){
         setContentView(R.layout.dc_diyalog)
         val mesaj = secilen + "! Seç bakalım! Doğruluk mu, cesaret mi?"
@@ -101,10 +103,9 @@ class Oyun : AppCompatActivity(){
                     findViewById<TextView>(R.id.soru_text).text=soru
                     val button=findViewById<Button>(R.id.soru_tamam)
                     button.setOnClickListener{
-                        onRestart()
                         setContentView(R.layout.activity_oyun)
+                        seyleriEkle(oyuncuSayisiAl())
 
-                        
                     }
                 }
             }
@@ -120,10 +121,9 @@ class Oyun : AppCompatActivity(){
                     findViewById<TextView>(R.id.soru_text).text=soru
                     val button=findViewById<Button>(R.id.soru_tamam)
                     button.setOnClickListener{
-                        onRestart()
                         setContentView(R.layout.activity_oyun)
+                        seyleriEkle(oyuncuSayisiAl())
 
-                        //FIXME oyuna geri dönerken boş oluyor
                     }
                 }
             }
@@ -146,6 +146,7 @@ class Oyun : AppCompatActivity(){
 
     private fun oyuncuOlustur(indeks: Int, oyuncuSayisi: Int): View? {
         val oyuncu = TextView(this)
+        Log.d("oyuncu listesi",Adlar.getAdListesi()[indeks])
         oyuncu.text = Adlar.getAdListesi()[indeks]
         oyuncu.setTextColor(Color.BLACK)
         return oyuncu

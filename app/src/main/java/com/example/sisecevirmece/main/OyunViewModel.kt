@@ -26,7 +26,6 @@ class OyunViewModel: ViewModel() { //ViewModel extend ettik ki activity lifecycl
             context = pcontext
         }
     }
-    //TODO hep aynı soru çekiyor
     suspend fun soruSor(
         soruTipi: SoruTipi
     ): String {//asenkron işler yaptığımız için suspend
