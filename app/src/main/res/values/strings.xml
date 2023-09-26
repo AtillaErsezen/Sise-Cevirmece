@@ -3,4 +3,5 @@
     <string name="uyari_yazisi">Bu oyunu oynayarak yetişkin olduğunu ve tüm sorumluluğun sende olduğunu kabul etmiş olursun. Sevmediğin hiçbir şeyi yapmak veya cevaplamak zorunda değilsin. İçkiyi fazla kaçırma. İçkiliyken araba kullanma. Hiçbir şey sağlığından önemli değil. Bu oyunu oynayarak senin veya herhangi birinin veya bir şeyin başına gelebilecek her türlü olumsuz durumdan yalnızca senin sorumlu olduğunu kabul etmiş olursun. </string>
     <string name="tamam">Tamam</string>
     <string name="dc_diyalog">Doğruluk mu? Cesaret mi?</string>
+    <string name="reklam_yukleme_hatasi">Reklam yüklenirken bir sorun oluştu</string>
 </resources>

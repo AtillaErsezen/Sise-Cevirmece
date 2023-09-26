@@ -31,8 +31,6 @@ class OyuncuAdlari : AppCompatActivity(), AyarlamaSayfasi {
         }
         var oyuncuSayisi:Int?=oyuncuSayisiAl() //oyuncuSayısı alma
         seyleriEkle(oyuncuSayisi!!)//!! non null demek
-        //TODo kısayollara bak
-        //
     }
     private fun seyleriEkle(oyuncuSayisi: Int){
         for(i in 0 until oyuncuSayisi){
@@ -42,7 +40,7 @@ class OyuncuAdlari : AppCompatActivity(), AyarlamaSayfasi {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                   //TODO burada tüm kutuları kontrol et
+                   //her text değiştiğinde bütün kutuları kontrol et aynı ad kontrolü vs. için
                     viewModel?.hataKontrol() // isimde duruma göre hata koyduk
                     //Hata kontrolü
                     tamamDugmesi!!.visibility = kutuRepository.hataVarMi() // tümkutuların kontrolü
@@ -60,7 +58,6 @@ class OyuncuAdlari : AppCompatActivity(), AyarlamaSayfasi {
             kutu_container?.addView(button)//Düğmeleri oluşturup ekledik
         }
     }
-//TODo aynı isimde oyuncu olmamalı
     private fun oyuncuSayisiAl(): Int {
         return intent.getIntExtra("oyuncu_sayisi",4)
     }

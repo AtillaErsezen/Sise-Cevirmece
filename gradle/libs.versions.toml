@@ -10,6 +10,7 @@ appcompat = "1.6.1"
 kotlin-stdlib = "1.8.21"
 material = "1.9.0"
 constraintlayout = "2.1.4"
+playServicesAds = "22.4.0"
 roomVersion = "2.5.2"
 workMultiprocess = "2.8.1"
 workRuntimeKtx = "2.8.1"
@@ -27,6 +28,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 kotlin-stdlib = { module = "org.jetbrains.kotlinx:kotlin-stdlib", version.ref = "kotlin-stdlib" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 room-paging = { module = "androidx.room:room-paging", version.ref = "roomVersion" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }

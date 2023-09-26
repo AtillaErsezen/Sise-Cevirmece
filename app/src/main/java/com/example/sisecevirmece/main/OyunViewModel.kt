@@ -19,7 +19,6 @@ import kotlin.random.Random
 
 class OyunViewModel: ViewModel() { //ViewModel extend ettik ki activity lifecycle dışında kalsın
 
-    //TODo oyuncu sayısı minimum iki olsun
     companion object {
         private lateinit var context: Context
         fun setContext(pcontext: Context) {

@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.media.MediaPlayer
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.AdRequest
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -20,11 +22,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.sisecevirmece.R
 import com.example.sisecevirmece.oyun_ayarlama.Adlar
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+//TODO Google Admobs ekle
 class Oyun : AppCompatActivity(){
     private var spinning: Boolean = false
     private var animation: Animation? = null
@@ -32,6 +39,9 @@ class Oyun : AppCompatActivity(){
     private var bottleStopRotation: Float = 0f // Store the final rotation value after the animation stops
     private var viewModel:OyunViewModel?=null
     private var mediaPlayer: MediaPlayer? = null
+    private var interstitialAd: InterstitialAd? = null
+    private val reklam_kimligi: String = "ca-app-pub-3824691361038288/3663043331"
+    private val test_reklam_kimligi: String = "ca-app-pub-3940256099942544/1033173712"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_oyun)
@@ -93,19 +103,65 @@ class Oyun : AppCompatActivity(){
             sise.startAnimation(animation)
         }
     }
+    private fun reklamYukle(){
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this, test_reklam_kimligi, adRequest, object:InterstitialAdLoadCallback(){
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("oyun reklamı", adError.toString())
+                interstitialAd = null //reklamımız olmadıği için null yaptık
+            }
+
+            override fun onAdLoaded(add: InterstitialAd) {
+                Log.d("oyun reklamı", "yüklendi")
+                interstitialAd = add // bizim reklamımıza yüklenen reklamı atadık
+            }
+        })
+    }
+    private fun reklamYuklenemedi(){
+        Toast.makeText(this,R.string.reklam_yukleme_hatasi,Toast.LENGTH_LONG).show()
+    }
+    private fun reklamTamEkran(){
+        interstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback(){
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                reklamYuklenemedi()
+                interstitialAd = null
+            }
+
+            override fun onAdImpression() {
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                interstitialAd = null
+            }
+
+            override fun onAdShowedFullScreenContent() {
+
+            }
+        }
+    }
     //TODO aynı isim yasakla
+    private fun reklamGoster(interstitialAd: InterstitialAd){
+        interstitialAd?.show(this)
+    }
     fun dc_diyalog_olustur(secilen:String,esi:String){
+        reklamYukle()
+        reklamTamEkran()
         setContentView(R.layout.dc_diyalog)
         val mesaj = secilen + "! Seç bakalım! Doğruluk mu, cesaret mi?"
         findViewById<TextView?>(R.id.dc_text).text=mesaj//Başlığa oyuncu adını ekledik
         val dogruluk=findViewById<Button>(R.id.dogruluk_dugme)
         dogruluk.setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch{
-                //tODO doğruluk sorusu sor
                 val soru=viewModel?.soruSor(SoruTipi.DOGRULUK)
+                //TODO burada reklam girecek
+                // ca-app-pub-3940256099942544/1033173712 test reklamı kimliği
+                reklamGoster(interstitialAd!!)
                 runOnUiThread{
                     setContentView(R.layout.soru_diyalogu)
-                    findViewById<TextView>(R.id.soru_text).text=soru
+                    //findViewById<TextView>(R.id.soru_text).text=soru
+                    findViewById<TextView>(R.id.soru_text).text="Question"
+                    //TODO remove above line
                     val button=findViewById<Button>(R.id.soru_tamam)
                     button.setOnClickListener{
                         setContentView(R.layout.activity_oyun)
@@ -118,12 +174,16 @@ class Oyun : AppCompatActivity(){
         }
         val cesaret=findViewById<Button>(R.id.cesaret_dugme)
         cesaret.setOnClickListener{
-            //tODO cesaret sorusu sor
             CoroutineScope(Dispatchers.IO).launch{
                 val soru=viewModel?.soruSor(SoruTipi.CESARET)
+                //TODO burada reklam girecek
+                //  test reklamı kimliği
+                reklamGoster(interstitialAd!!)
                 runOnUiThread{
                     setContentView(R.layout.soru_diyalogu)
-                    findViewById<TextView>(R.id.soru_text).text=soru
+                    //findViewById<TextView>(R.id.soru_text).text=soru
+                    findViewById<TextView>(R.id.soru_text).text="Question"
+                    //TODO remove above line
                     val button=findViewById<Button>(R.id.soru_tamam)
                     button.setOnClickListener{
                         setContentView(R.layout.activity_oyun)

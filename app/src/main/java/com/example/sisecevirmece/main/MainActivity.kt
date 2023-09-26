@@ -11,24 +11,29 @@ import com.example.sisecevirmece.R
 import com.example.sisecevirmece.data.DatabaseInit
 import com.example.sisecevirmece.data.SoruDatabase
 import com.example.sisecevirmece.oyun_ayarlama.OyuncuSayisi
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-
+//TODO oyna düğmesi altına reklam
 class MainActivity : AppCompatActivity() {
+    private lateinit var mAdView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
+        //TODO ana sayfa resmi, logo koy
         super.onCreate(savedInstanceState)
         val database =
             Room.databaseBuilder(this, SoruDatabase::class.java, "SoruDatabase").build()
         CoroutineScope(Dispatchers.IO).launch {
             DatabaseInit(database)//Coroutine içinde kurduk ki arayüz etkilenmesin
-            //TODo Buraya transaction düşün buradan soruya ulaşılıyor
             OyunViewModel.setContext(applicationContext)
         }
         setContentView(R.layout.activity_main)
-        val oynaDugmesi : Button=findViewById<Button>(R.id.oynaDugmesi)
-        oynaDugmesi.setOnClickListener(){
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+        val oynaDugmesi : Button=findViewById(R.id.oynaDugmesi)
+        oynaDugmesi.setOnClickListener{
             //Oyuna geç
             oyunaGec()
         }
